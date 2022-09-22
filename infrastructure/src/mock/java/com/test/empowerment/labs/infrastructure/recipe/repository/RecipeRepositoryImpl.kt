@@ -7,7 +7,7 @@ import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeTranslate
 
 class RecipeRepositoryImpl : RecipeRepository {
     override fun selectRecipe(): MutableList<Recipe> {
-        val recipeListDto = mutableListOf(
+        val recipesDto = mutableListOf(
             RecipeDto(
                 id = 716429,
                 title = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
@@ -19,6 +19,6 @@ class RecipeRepositoryImpl : RecipeRepository {
                 imagePath = "https://spoonacular.com/recipeImages/715538-312x231.jpg"
             )
         )
-        return RecipeTranslate.fromListDtoToListModel(recipeListDto)
+        return RecipeTranslate.fromListDtoToListModel(recipesDto)
     }
 }

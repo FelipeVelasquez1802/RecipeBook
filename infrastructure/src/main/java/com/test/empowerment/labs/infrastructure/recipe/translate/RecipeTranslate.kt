@@ -8,7 +8,7 @@ class RecipeTranslate {
         private fun fromDtoToModel(recipeDto: RecipeDto): Recipe =
             Recipe(recipeDto.id, recipeDto.title, recipeDto.imagePath)
 
-        fun fromListDtoToListModel(recipeListDto: MutableList<RecipeDto>): MutableList<Recipe> =
-            recipeListDto.map { recipeDto -> fromDtoToModel(recipeDto) }.toMutableList()
+        fun fromListDtoToListModel(recipesDto: MutableList<RecipeDto>): MutableList<Recipe> =
+            recipesDto.map { recipeDto -> fromDtoToModel(recipeDto) }.toMutableList()
     }
 }

@@ -4,7 +4,7 @@ import com.test.empowerment.labs.domain.exception.BadIdException
 import com.test.empowerment.labs.domain.exception.BadPathException
 import com.test.empowerment.labs.domain.exception.EmptyValueException
 
-class Recipe(private val id: Int, private val title: String, private val imagePath: String) {
+class Recipe(val id: Int, val title: String, val imagePath: String) {
     init {
         validate()
     }
@@ -42,7 +42,8 @@ class Recipe(private val id: Int, private val title: String, private val imagePa
     }
 
     private fun validateCorrectImagePath() {
-        val pathRegex = "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)".toRegex()
+        val pathRegex =
+            "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)".toRegex()
         if (!imagePath.matches(pathRegex)) {
             val message = "This is bad image path"
             throw BadPathException(message)

@@ -1,4 +1,4 @@
-package com.test.empowerment.labs.recipebook
+package com.test.empowerment.labs.recipebook.recipe.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,15 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.test.empowerment.labs.recipebook.recipe.viewmodel.RecipeViewModel
 import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
-class MainActivity : ComponentActivity() {
+class RecipeActivity : ComponentActivity() {
+
+    private var recipeViewModel: RecipeViewModel = RecipeViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        recipeViewModel.executeGetRecipe()
         setContent {
             RecipeBookTheme {
                 // A surface container using the 'background' color from the theme
@@ -22,22 +24,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    val recipes = recipeViewModel.recipes
+                    Recipe(recipes = recipes)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    RecipeBookTheme {
-        Greeting("Android")
     }
 }

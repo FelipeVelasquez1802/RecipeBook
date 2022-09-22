@@ -18,7 +18,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
-import com.test.empowerment.labs.recipebook.common.view.NormalTitle
+import com.test.empowerment.labs.recipebook.common.view.BoldTitle
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x3
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x4
 import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
@@ -42,7 +42,7 @@ private fun RecipeRow(recipe: Recipe) {
     Row(modifier = Modifier.padding(vertical = Multiplier_x4, horizontal = Multiplier_x3)) {
         Card {
             Column {
-                NormalTitle(
+                BoldTitle(
                     text = recipe.title,
                     modifier = Modifier.padding(
                         vertical = Multiplier_x3,
@@ -52,7 +52,7 @@ private fun RecipeRow(recipe: Recipe) {
                 GlideImage(
                     imageModel = recipe.imagePath,
                     imageOptions = ImageOptions(alignment = Alignment.Center),
-                    previewPlaceholder = R.drawable.loading,
+                    previewPlaceholder = R.drawable.ic_loading,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -66,14 +66,14 @@ fun RecipePreview() {
     RecipeBookTheme {
         val recipes = mutableListOf(
             Recipe(
-                id = 716429,
-                title = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
-                imagePath = "https://spoonacular.com/recipeImages/716429-312x231.jpg"
+                id = 716426,
+                title = "Cauliflower, Brown Rice, and Vegetable Fried Rice",
+                imagePath = "https://spoonacular.com/recipeImages/716426-312x231.jpg"
             ),
             Recipe(
-                id = 715538,
-                title = "What to make for dinner tonight?? Bruschetta Style Pork & Pasta",
-                imagePath = "https://spoonacular.com/recipeImages/715538-312x231.jpg"
+                id = 715594,
+                title = "Homemade Garlic and Basil French Fries",
+                imagePath = "https://spoonacular.com/recipeImages/715594-312x231.jpg"
             )
         )
         Recipe(recipes)

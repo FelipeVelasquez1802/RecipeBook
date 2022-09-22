@@ -9,14 +9,19 @@ class RecipeRepositoryImpl : RecipeRepository {
     override fun selectRecipe(): MutableList<Recipe> {
         val recipesDto = mutableListOf(
             RecipeDto(
-                id = 716429,
-                title = "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
-                imagePath = "https://spoonacular.com/recipeImages/716429-312x231.jpg"
+                id = 716426,
+                title = "Cauliflower, Brown Rice, and Vegetable Fried Rice",
+                imagePath = "https://spoonacular.com/recipeImages/716426-312x231.jpg"
             ),
             RecipeDto(
-                id = 715538,
-                title = "What to make for dinner tonight?? Bruschetta Style Pork & Pasta",
-                imagePath = "https://spoonacular.com/recipeImages/715538-312x231.jpg"
+                id = 715594,
+                title = "Homemade Garlic and Basil French Fries",
+                imagePath = "https://spoonacular.com/recipeImages/715594-312x231.jpg"
+            ),
+            RecipeDto(
+                id = 715497,
+                title = "Berry Banana Breakfast Smoothie",
+                imagePath = "https://spoonacular.com/recipeImages/715497-312x231.jpg"
             )
         )
         return RecipeTranslate.fromListDtoToListModel(recipesDto)

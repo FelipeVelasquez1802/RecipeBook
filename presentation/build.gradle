@@ -43,6 +43,15 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    flavorDimensions 'RecipeBook'
+    productFlavors {
+        mock {
+            dimension 'RecipeBook'
+        }
+        prod {
+            dimension 'RecipeBook'
+        }
+    }
 }
 
 dependencies {

@@ -4,7 +4,7 @@ import com.test.empowerment.labs.domain.exception.BadIdException
 import com.test.empowerment.labs.domain.exception.BadPathException
 import com.test.empowerment.labs.domain.exception.EmptyValueException
 
-class Recipe(val id: Int, val title: String, val imagePath: String) {
+open class Recipe(val id: Int, val title: String, val imagePath: String) {
     init {
         validate()
     }

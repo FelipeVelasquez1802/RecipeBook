@@ -7,12 +7,14 @@ import com.test.empowerment.labs.domain.recipe.databuilder.RecipeDataBuilder
 import org.junit.Assert.fail
 import org.junit.Test
 
-class RecipeTest {
+open class RecipeTest {
+
+    protected open fun buildDataBuilder(): RecipeDataBuilder = RecipeDataBuilder()
 
     @Test
     fun giveTheCreationRecipe_whenBadId_thenReturnBadIdException() {
         val badId = -1
-        val dataBuilder = RecipeDataBuilder().withId(badId)
+        val dataBuilder = buildDataBuilder().withId(badId)
         try {
             dataBuilder.build()
             fail("Expected BadIdException")
@@ -24,7 +26,7 @@ class RecipeTest {
     @Test
     fun giveTheCreationRecipe_whenIsEmptyTitle_thenReturnEmptyValueException() {
         val emptyTitle = ""
-        val dataBuilder = RecipeDataBuilder().withTitle(emptyTitle)
+        val dataBuilder = buildDataBuilder().withTitle(emptyTitle)
         try {
             dataBuilder.build()
             fail("Expected EmptyValueException")
@@ -36,7 +38,7 @@ class RecipeTest {
     @Test
     fun giveTheCreationRecipe_whenIsEmptyImagePath_thenReturnEmptyValueException() {
         val emptyImagePath = ""
-        val dataBuilder = RecipeDataBuilder().withImagePath(emptyImagePath)
+        val dataBuilder = buildDataBuilder().withImagePath(emptyImagePath)
         try {
             dataBuilder.build()
             fail("Expected EmptyValueException")
@@ -47,8 +49,8 @@ class RecipeTest {
 
     @Test
     fun giveTheCreationRecipe_whenImageNotIsCorrectPath_thenReturnBadPathException() {
-        val badPath = "ho:sss.com"
-        val dataBuilder = RecipeDataBuilder().withImagePath(badPath)
+        val badPath = "@mmm"
+        val dataBuilder = buildDataBuilder().withImagePath(badPath)
         try {
             dataBuilder.build()
             fail("Expected BadPathException")

@@ -17,6 +17,11 @@
         android:theme="@style/Theme.RecipeBook"
         tools:targetApi="31">
         <activity
+            android:name=".recipe.view.SearchActivity"
+            android:exported="false"
+            android:label="@string/title_activity_search"
+            android:theme="@style/Theme.RecipeBook" />
+        <activity
             android:name=".recipe.view.RecipeDetailActivity"
             android:exported="false"
             android:label="@string/title_activity_recipe_detail"

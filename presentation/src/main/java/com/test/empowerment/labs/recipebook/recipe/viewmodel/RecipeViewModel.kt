@@ -1,7 +1,9 @@
 package com.test.empowerment.labs.recipebook.recipe.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.test.empowerment.labs.domain.exception.EmptyValueException
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.domain.recipe.repository.RecipeRepository
 import com.test.empowerment.labs.domain.recipe.service.RecipeService
@@ -20,11 +22,25 @@ class RecipeViewModel : ViewModel() {
     }
 
     val recipes: MutableList<Recipe> = mutableStateListOf()
+    var showTextHelp = mutableStateOf(false)
 
     fun executeGetRecipe() {
         CoroutineScope(IO).launch {
             val recipeResult = recipeService.getRecipe()
             recipes.addAll(recipeResult)
+        }
+    }
+
+    fun executeGetRecipeByKeyWord(keyWord: String) {
+        CoroutineScope(IO).launch {
+            try {
+                val recipeResult = recipeService.getRecipeByKeyWord(keyWord = keyWord)
+                recipes.clear()
+                recipes.addAll(recipeResult)
+                showTextHelp.value = false
+            } catch (_: EmptyValueException) {
+                showTextHelp.value = true
+            }
         }
     }
 }

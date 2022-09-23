@@ -12,7 +12,7 @@ open class RecipeTest {
     protected open fun buildDataBuilder(): RecipeDataBuilder = RecipeDataBuilder()
 
     @Test
-    fun giveTheCreationRecipe_whenBadId_thenReturnBadIdException() {
+    fun givenTheCreationRecipe_whenBadId_thenReturnBadIdException() {
         val badId = -1
         val dataBuilder = buildDataBuilder().withId(badId)
         try {
@@ -24,7 +24,7 @@ open class RecipeTest {
     }
 
     @Test
-    fun giveTheCreationRecipe_whenIsEmptyTitle_thenReturnEmptyValueException() {
+    fun givenTheCreationRecipe_whenIsEmptyTitle_thenReturnEmptyValueException() {
         val emptyTitle = ""
         val dataBuilder = buildDataBuilder().withTitle(emptyTitle)
         try {
@@ -36,7 +36,7 @@ open class RecipeTest {
     }
 
     @Test
-    fun giveTheCreationRecipe_whenIsEmptyImagePath_thenReturnEmptyValueException() {
+    fun givenTheCreationRecipe_whenIsEmptyImagePath_thenReturnEmptyValueException() {
         val emptyImagePath = ""
         val dataBuilder = buildDataBuilder().withImagePath(emptyImagePath)
         try {
@@ -48,7 +48,7 @@ open class RecipeTest {
     }
 
     @Test
-    fun giveTheCreationRecipe_whenImageNotIsCorrectPath_thenReturnBadPathException() {
+    fun givenTheCreationRecipe_whenImageNotIsCorrectPath_thenReturnBadPathException() {
         val badPath = "@mmm"
         val dataBuilder = buildDataBuilder().withImagePath(badPath)
         try {

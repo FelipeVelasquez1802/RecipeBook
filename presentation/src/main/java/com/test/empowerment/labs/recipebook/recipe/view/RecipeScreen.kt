@@ -1,6 +1,7 @@
 package com.test.empowerment.labs.recipebook.recipe.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +19,8 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
-import com.test.empowerment.labs.recipebook.common.view.BoldTitle
+import com.test.empowerment.labs.recipebook.common.view.TitleBold
+import com.test.empowerment.labs.recipebook.recipe.route.RecipeRoute
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x3
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x4
 import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
@@ -40,9 +42,10 @@ fun Recipe(recipes: MutableList<Recipe>) {
 @Composable
 private fun RecipeRow(recipe: Recipe) {
     Row(modifier = Modifier.padding(vertical = Multiplier_x4, horizontal = Multiplier_x3)) {
-        Card {
+        val recipeRoute = RecipeRoute()
+        Card(modifier = Modifier.clickable { recipeRoute.goToRecipeDetail(recipe.id) }) {
             Column {
-                BoldTitle(
+                TitleBold(
                     text = recipe.title,
                     modifier = Modifier.padding(
                         vertical = Multiplier_x3,

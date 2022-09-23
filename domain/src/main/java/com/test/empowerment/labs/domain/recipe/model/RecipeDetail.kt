@@ -7,7 +7,7 @@ class RecipeDetail(
     id: Int,
     title: String,
     imagePath: String,
-    private val summary: String,
+    val summary: String,
     val readyInMinute: Int
 ) : Recipe(id, title, imagePath) {
 

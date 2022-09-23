@@ -8,14 +8,14 @@ import androidx.compose.ui.unit.TextUnit
 import com.test.empowerment.labs.recipebook.ui.theme.Title
 
 @Composable
-fun NormalTitle(text: String, modifier: Modifier = Modifier) {
+fun TitleNormal(text: String, modifier: Modifier = Modifier) {
     Text(text = text, modifier = modifier)
 }
 
 @Composable
-fun BoldTitle(
+fun TitleBold(
     text: String,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     fontSize: TextUnit = Title
 ) {

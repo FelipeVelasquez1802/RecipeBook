@@ -73,4 +73,7 @@ dependencies {
 
     // Glide
     implementation "com.github.skydoves:landscapist-glide:2.0.0"
+
+    // LiveData
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 }

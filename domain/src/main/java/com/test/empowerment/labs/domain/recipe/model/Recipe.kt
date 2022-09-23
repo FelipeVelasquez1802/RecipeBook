@@ -1,25 +1,17 @@
 package com.test.empowerment.labs.domain.recipe.model
 
-import com.test.empowerment.labs.domain.exception.BadIdException
+import com.test.empowerment.labs.domain.common.model.Identity
 import com.test.empowerment.labs.domain.exception.BadPathException
 import com.test.empowerment.labs.domain.exception.EmptyValueException
 
-open class Recipe(val id: Int, val title: String, val imagePath: String) {
+open class Recipe(id: Int, val title: String, val imagePath: String) : Identity(id) {
     init {
         validate()
     }
 
     private fun validate() {
-        validateId()
         validateTitle()
         validateImagePath()
-    }
-
-    private fun validateId() {
-        if (id < 0) {
-            val message = "This is bad ID"
-            throw BadIdException(message)
-        }
     }
 
     private fun validateTitle() {

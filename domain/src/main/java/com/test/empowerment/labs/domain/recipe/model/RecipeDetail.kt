@@ -2,13 +2,15 @@ package com.test.empowerment.labs.domain.recipe.model
 
 import com.test.empowerment.labs.domain.exception.BadValueTimeException
 import com.test.empowerment.labs.domain.exception.EmptyValueException
+import com.test.empowerment.labs.domain.ingredient.model.Ingredient
 
 class RecipeDetail(
     id: Int,
     title: String,
     imagePath: String,
     val summary: String,
-    val readyInMinute: Int
+    val readyInMinute: Int,
+    val ingredients: MutableList<Ingredient>
 ) : Recipe(id, title, imagePath) {
 
     init {

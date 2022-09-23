@@ -11,7 +11,7 @@ class RecipeDetailTest : RecipeTest() {
     override fun buildDataBuilder(): RecipeDetailDataBuilder = RecipeDetailDataBuilder()
 
     @Test
-    fun giveTheCreationRecipeDetail_whenSummaryIsEmpty_thenReturnEmptyValueException() {
+    fun givenTheCreationRecipeDetail_whenSummaryIsEmpty_thenReturnEmptyValueException() {
         val emptySummary = ""
         val dataBuilder = buildDataBuilder().withSummary(emptySummary)
         try {
@@ -23,7 +23,7 @@ class RecipeDetailTest : RecipeTest() {
     }
 
     @Test
-    fun giveTheCreationRecipeDetail_whenNegativeReadyInMinute_thenReturnBadValueTimeException() {
+    fun givenTheCreationRecipeDetail_whenNegativeReadyInMinute_thenReturnBadValueTimeException() {
         val negativeValue = -1
         val dataBuilder = buildDataBuilder().withReadyInMinute(readyInMinute = negativeValue)
         try {

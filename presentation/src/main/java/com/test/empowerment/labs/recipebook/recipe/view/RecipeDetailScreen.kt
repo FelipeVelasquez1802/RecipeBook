@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
@@ -21,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
+import com.test.empowerment.labs.domain.ingredient.model.Ingredient
 import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.DescriptionHtml
@@ -37,6 +40,7 @@ fun RecipeDetail(recipeDetail: RecipeDetail?) {
     recipeDetail?.apply {
         Column(modifier = Modifier.fillMaxSize()) {
             Detail(recipeDetail = recipeDetail)
+            Ingredients(ingredients = recipeDetail.ingredients)
         }
     } ?: NullRecipeDetailDialog()
 }
@@ -87,6 +91,40 @@ private fun Time(time: Int) {
 }
 
 @Composable
+private fun Ingredients(ingredients: MutableList<Ingredient>) {
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        item {
+            TitleBold(
+                text = "Ingredients",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = Multiplier_x6, horizontal = Multiplier_x4)
+            )
+        }
+        items(items = ingredients, key = { ingredient -> ingredient.id }) { ingredient ->
+            IngredientRow(ingredient = ingredient)
+        }
+    }
+}
+
+@Composable
+private fun IngredientRow(ingredient: Ingredient) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Multiplier_x6)
+    ) {
+        DescriptionNormal(
+            text = "$ingredient",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = Multiplier_x4)
+        )
+        Divider()
+    }
+}
+
+@Composable
 fun NullRecipeDetailDialog() {
     val isVisibilityDialog = remember { mutableStateOf(true) }
     AlertDialog(
@@ -105,12 +143,21 @@ fun NullRecipeDetailDialog() {
 @Composable
 fun DefaultPreview() {
     RecipeBookTheme {
+        val ingredients = mutableListOf(
+            Ingredient(
+                id = 9040,
+                name = "banana",
+                amount = 0.25,
+                unit = "cup"
+            )
+        )
         val recipeDetail = RecipeDetail(
             id = 716426,
             title = "Cauliflower, Brown Rice, and Vegetable Fried Rice",
             imagePath = "https://spoonacular.com/recipeImages/716426-312x231.jpg",
             summary = "Cauliflower, Brown Rice, and Vegetable Fried Rice might be a good recipe to expand your side dish recipe box. Watching your figure? This gluten free, dairy free, lacto ovo vegetarian, and vegan recipe has <b>192 calories</b>, <b>7g of protein</b>, and <b>6g of fat</b> per serving. For <b>$1.12 per serving</b>, this recipe <b>covers 19%</b> of your daily requirements of vitamins and minerals. This recipe serves 8. This recipe from fullbellysisters.blogspot.com has 3689 fans. This recipe is typical of Chinese cuisine. From preparation to the plate, this recipe takes about <b>30 minutes</b>. Head to the store and pick up peas, broccoli, salt, and a few other things to make it today. Overall, this recipe earns an <b>awesome spoonacular score of 100%</b>. Users who liked this recipe also liked <a href=\"https://spoonacular.com/recipes/vegetable-fried-brown-rice-36199\">Vegetable Fried Brown Rice</a>, <a href=\"https://spoonacular.com/recipes/vegetable-fried-cauliflower-rice-933261\">Vegetable Fried Cauliflower Rice</a>, and <a href=\"https://spoonacular.com/recipes/easy-vegetable-fried-brown-rice-with-egg-802042\">Easy Vegetable Fried Brown Rice with Egg</a>.",
-            readyInMinute = 30
+            readyInMinute = 30,
+            ingredients = ingredients
         )
         RecipeDetail(recipeDetail = recipeDetail)
     }

@@ -1,4 +1,4 @@
-package com.test.empowerment.labs.infrastructure.common.translate
+package com.test.empowerment.labs.infrastructure.ingredient.translate
 
 import com.test.empowerment.labs.domain.ingredient.model.Ingredient
 import com.test.empowerment.labs.infrastructure.ingredient.dto.IngredientDto

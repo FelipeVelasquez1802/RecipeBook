@@ -11,17 +11,20 @@ class RecipeRepositoryImpl : RecipeRepository {
         RecipeDto(
             id = 716426,
             title = "Cauliflower, Brown Rice, and Vegetable Fried Rice",
-            imagePath = "https://spoonacular.com/recipeImages/716426-312x231.jpg"
+            imagePath = "https://spoonacular.com/recipeImages/716426-312x231.jpg",
+            isFavorite = false
         ),
         RecipeDto(
             id = 715594,
             title = "Homemade Garlic and Basil French Fries",
-            imagePath = "https://spoonacular.com/recipeImages/715594-312x231.jpg"
+            imagePath = "https://spoonacular.com/recipeImages/715594-312x231.jpg",
+            isFavorite = false
         ),
         RecipeDto(
             id = 715497,
             title = "Berry Banana Breakfast Smoothie",
-            imagePath = "https://spoonacular.com/recipeImages/715497-312x231.jpg"
+            imagePath = "https://spoonacular.com/recipeImages/715497-312x231.jpg",
+            isFavorite = false
         )
     )
 
@@ -33,6 +36,15 @@ class RecipeRepositoryImpl : RecipeRepository {
             recipeDto.title.lowercase().contains(keyWord.lowercase())
         }.toMutableList()
         return RecipeTranslate.fromListDtoToListModel(recipeFilter)
+    }
+
+    override fun updateIsFavoriteRecipe(id: Int, isFavorite: Boolean): Boolean {
+        recipesDto.find { recipeDto -> recipeDto.id == id }?.let { recipeDto ->
+            recipeDto.isFavorite = isFavorite
+            return true
+        } ?: run {
+            return false
+        }
     }
 
 }

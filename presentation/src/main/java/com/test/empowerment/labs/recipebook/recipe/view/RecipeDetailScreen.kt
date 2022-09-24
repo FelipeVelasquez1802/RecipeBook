@@ -1,6 +1,7 @@
 package com.test.empowerment.labs.recipebook.recipe.view
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,7 +27,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.ingredient.model.Ingredient
 import com.test.empowerment.labs.domain.instruction.model.Instruction
@@ -33,7 +35,9 @@ import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.DescriptionHtml
 import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
+import com.test.empowerment.labs.recipebook.common.view.FavoriteButton
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
+import com.test.empowerment.labs.recipebook.recipe.viewmodel.RecipeDetailViewModel
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x100
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x3
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x4
@@ -42,16 +46,17 @@ import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 
 @Composable
-fun RecipeDetail(recipeDetail: RecipeDetail?) {
+fun RecipeDetail(recipeDetailViewModel: RecipeDetailViewModel) {
+    val recipeDetail by recipeDetailViewModel.recipeDetail.observeAsState()
     recipeDetail?.apply {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
-                Detail(recipeDetail = recipeDetail)
+                Detail(recipeDetail = this@apply, recipeDetailViewModel)
             }
             title(text = "Ingredients")
             ingredients(ingredients = ingredients)
             title(text = "Instruction")
-            recipeDetail.instructions.forEach { instruction ->
+            this@apply.instructions.forEach { instruction ->
                 title(text = "Steps")
                 items(instruction.steps) { step ->
                     StepRow(step = step)
@@ -62,7 +67,8 @@ fun RecipeDetail(recipeDetail: RecipeDetail?) {
 }
 
 @Composable
-private fun Detail(recipeDetail: RecipeDetail) {
+private fun Detail(recipeDetail: RecipeDetail, recipeDetailViewModel: RecipeDetailViewModel) {
+    val isFavorite = remember { mutableStateOf(recipeDetail.isFavorite) }
     GlideImage(
         imageModel = recipeDetail.imagePath,
         previewPlaceholder = R.drawable.ic_loading,
@@ -78,7 +84,18 @@ private fun Detail(recipeDetail: RecipeDetail) {
                 top = Multiplier_x3
             )
         ) {
-            TitleBold(text = recipeDetail.title)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                TitleBold(text = recipeDetail.title, modifier = Modifier.weight(1f))
+                FavoriteButton(
+                    isFavorite = isFavorite,
+                    modifier = Modifier.clickable {
+                        recipeDetailViewModel.executeSetIsFavoriteRecipe(
+                            id = recipeDetail.id,
+                            isFavorite = isFavorite.value
+                        )
+                        isFavorite.value = !isFavorite.value
+                    })
+            }
             DescriptionHtml(
                 text = recipeDetail.summary,
                 modifier = Modifier.padding(vertical = Multiplier_x4)
@@ -151,7 +168,12 @@ private fun StepRow(step: Step) {
                 text = "${step.number}",
                 modifier = Modifier
                     .padding(end = Multiplier_x6)
-                    .drawBehind { drawCircle(color = Color.Black, radius = this.size.minDimension) },
+                    .drawBehind {
+                        drawCircle(
+                            color = Color.Black,
+                            radius = this.size.minDimension
+                        )
+                    },
                 color = Color.White
             )
             DescriptionNormal(
@@ -207,6 +229,8 @@ fun RecipeDetailPreview() {
             ingredients = ingredients,
             instructions = instructions
         )
-        RecipeDetail(recipeDetail = recipeDetail)
+        val recipeDetailViewModel = RecipeDetailViewModel()
+        recipeDetailViewModel.recipeDetail.value = recipeDetail
+        RecipeDetail(recipeDetailViewModel = recipeDetailViewModel)
     }
 }

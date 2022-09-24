@@ -47,4 +47,16 @@ class RecipeDetailServiceTest {
         assertNotNull(response)
     }
 
+    @Test
+    fun givenTheSetIsFavoriteRecipeDetail_whenIsBadId_thenReturnBadIdException() {
+        val badId = -1
+        val isFavorite = false
+        try {
+            recipeDetailService.setIsFavoriteRecipe(badId, isFavorite)
+            fail("Expected BadIdException")
+        } catch (exception: Exception) {
+            assert(exception is BadIdException)
+        }
+    }
+
 }

@@ -27,4 +27,10 @@ class RecipeDetailViewModel : ViewModel() {
             recipeDetail.postValue(result)
         }
     }
+
+    fun executeSetIsFavoriteRecipe(id: Int, isFavorite: Boolean) {
+        CoroutineScope(IO).launch {
+            recipeDetailService.setIsFavoriteRecipe(id, isFavorite)
+        }
+    }
 }

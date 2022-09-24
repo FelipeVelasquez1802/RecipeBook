@@ -43,4 +43,10 @@ class RecipeViewModel : ViewModel() {
             }
         }
     }
+
+    fun executeSetIsFavoriteRecipe(id: Int, isFavorite: Boolean) {
+        CoroutineScope(IO).launch {
+            recipeService.setIsFavoriteRecipe(id, isFavorite)
+        }
+    }
 }

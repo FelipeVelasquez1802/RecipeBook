@@ -1,5 +1,6 @@
 package com.test.empowerment.labs.domain.recipe.service
 
+import com.test.empowerment.labs.domain.exception.BadIdException
 import com.test.empowerment.labs.domain.exception.EmptyValueException
 import com.test.empowerment.labs.domain.recipe.repository.RecipeRepository
 import org.junit.Assert.fail
@@ -24,15 +25,24 @@ class RecipeServiceTest {
 
     @Test
     fun givenTheGetRecipeByKeyWord_whenIsEmptyKeyWord_thenReturnEmptyValueException() {
-        // Given
         val emptyKeyWord = ""
         try {
-            // When
             recipeService.getRecipeByKeyWord(emptyKeyWord)
             fail("Expected EmptyValueException")
         } catch (exception: Exception) {
-            // Then
             assert(exception is EmptyValueException)
+        }
+    }
+
+    @Test
+    fun givenTheSetIsFavoriteRecipe_whenIsBadId_thenReturnBadIdException() {
+        val badId = -1
+        val isFavorite = false
+        try {
+            recipeService.setIsFavoriteRecipe(badId, isFavorite)
+            fail("Expected BadIdException")
+        } catch (exception: Exception) {
+            assert(exception is BadIdException)
         }
     }
 

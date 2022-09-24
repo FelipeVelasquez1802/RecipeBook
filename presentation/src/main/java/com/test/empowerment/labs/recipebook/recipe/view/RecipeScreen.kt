@@ -15,6 +15,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,20 +27,21 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.EmptyList
+import com.test.empowerment.labs.recipebook.common.view.FavoriteButton
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
 import com.test.empowerment.labs.recipebook.recipe.model.ParamsEnum
 import com.test.empowerment.labs.recipebook.recipe.route.RecipeRoute
-import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x100
+import com.test.empowerment.labs.recipebook.recipe.viewmodel.RecipeViewModel
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x28
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x3
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x4
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x6
 import com.test.empowerment.labs.recipebook.ui.theme.Purple500
-import com.test.empowerment.labs.recipebook.ui.theme.Purple700
 import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 @Composable
-fun Recipes(recipes: MutableList<Recipe>) {
+fun Recipes(recipeViewModel: RecipeViewModel) {
+    val recipes = recipeViewModel.recipes
     val recipeRoute = RecipeRoute()
     Column(
         modifier = Modifier
@@ -48,9 +51,13 @@ fun Recipes(recipes: MutableList<Recipe>) {
         Search(recipeRoute)
         if (recipes.isEmpty()) EmptyList()
         else {
-            LazyColumn(modifier = Modifier.fillMaxWidth()){
-                items(recipes){recipe->
-                    RecipeRow(recipe = recipe, recipeRoute = recipeRoute)
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(recipes) { recipe ->
+                    RecipeRow(
+                        recipe = recipe,
+                        recipeViewModel = recipeViewModel,
+                        recipeRoute = recipeRoute
+                    )
                 }
             }
         }
@@ -87,17 +94,31 @@ private fun Search(recipeRoute: RecipeRoute) {
 }
 
 @Composable
-private fun RecipeRow(recipe: Recipe, recipeRoute: RecipeRoute) {
+private fun RecipeRow(recipe: Recipe, recipeViewModel: RecipeViewModel, recipeRoute: RecipeRoute) {
+    val isFavorite = remember { mutableStateOf(recipe.isFavorite) }
     Row(modifier = Modifier.padding(vertical = Multiplier_x4, horizontal = Multiplier_x3)) {
         Card(modifier = Modifier.clickable { recipeRoute.goToRecipeDetail(recipe.id) }) {
             Column {
-                TitleBold(
-                    text = recipe.title,
-                    modifier = Modifier.padding(
-                        vertical = Multiplier_x3,
-                        horizontal = Multiplier_x4
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TitleBold(
+                        text = recipe.title,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(
+                                vertical = Multiplier_x3,
+                                horizontal = Multiplier_x4
+                            )
                     )
-                )
+                    FavoriteButton(
+                        isFavorite = isFavorite,
+                        modifier = Modifier.clickable {
+                            recipeViewModel.executeSetIsFavoriteRecipe(recipe.id, isFavorite.value)
+                            isFavorite.value = !isFavorite.value
+                        })
+                }
                 GlideImage(
                     imageModel = recipe.imagePath,
                     imageOptions = ImageOptions(alignment = Alignment.Center),
@@ -114,6 +135,7 @@ private fun RecipeRow(recipe: Recipe, recipeRoute: RecipeRoute) {
 @Composable
 fun RecipePreview() {
     RecipeBookTheme {
+        val recipeViewModel = RecipeViewModel()
         val recipes = mutableListOf(
             Recipe(
                 id = 716426,
@@ -126,6 +148,7 @@ fun RecipePreview() {
                 imagePath = "https://spoonacular.com/recipeImages/715594-312x231.jpg"
             )
         )
-        Recipes(recipes)
+        recipeViewModel.recipes.addAll(recipes)
+        Recipes(recipeViewModel = recipeViewModel)
     }
 }

@@ -10,22 +10,19 @@ import androidx.compose.ui.Modifier
 import com.test.empowerment.labs.recipebook.recipe.viewmodel.RecipeViewModel
 import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
-class RecipeActivity : ComponentActivity() {
+class SearchActivity : ComponentActivity() {
 
-    private var recipeViewModel: RecipeViewModel = RecipeViewModel()
+    private val recipeViewModel: RecipeViewModel = RecipeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recipeViewModel.executeGetRecipe()
         setContent {
             RecipeBookTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val recipes = recipeViewModel.recipes
-                    Recipes(recipes = recipes)
+                    Search(recipeViewModel = recipeViewModel)
                 }
             }
         }

@@ -10,6 +10,6 @@ class EmpowermentLabsApplication : Application() {
 
     companion object {
         private var instance: EmpowermentLabsApplication? = null
-        fun getContext(): Context = instance!!.applicationContext
+        fun getContext(): Context? = instance?.applicationContext
     }
 }

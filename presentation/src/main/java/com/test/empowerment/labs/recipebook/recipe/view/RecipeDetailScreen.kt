@@ -34,6 +34,7 @@ import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.DescriptionHtml
 import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
+import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x100
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x3
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x4
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x6
@@ -66,7 +67,7 @@ private fun Detail(recipeDetail: RecipeDetail) {
         imageModel = recipeDetail.imagePath,
         previewPlaceholder = R.drawable.ic_loading,
         modifier = Modifier
-            .height(200.dp)
+            .height(Multiplier_x100)
             .fillMaxWidth()
     )
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -181,7 +182,7 @@ fun NullRecipeDetailDialog() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun RecipeDetailPreview() {
     RecipeBookTheme {
         val ingredients = mutableListOf(
             Ingredient(id = 9040, name = "banana", amount = 0.25, unit = "cup"),

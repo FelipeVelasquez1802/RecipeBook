@@ -2,7 +2,6 @@ package com.test.empowerment.labs.recipebook.recipe.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +27,8 @@ import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.EmptyList
 import com.test.empowerment.labs.recipebook.common.view.FavoriteButton
+import com.test.empowerment.labs.recipebook.common.view.LoadingDialog
+import com.test.empowerment.labs.recipebook.common.view.TabBar
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
 import com.test.empowerment.labs.recipebook.recipe.model.ParamsEnum
 import com.test.empowerment.labs.recipebook.recipe.route.RecipeRoute
@@ -41,24 +42,31 @@ import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 @Composable
 fun Recipes(recipeViewModel: RecipeViewModel) {
-    val recipes = recipeViewModel.recipes
-    val recipeRoute = RecipeRoute()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.LightGray)
     ) {
+        val recipeRoute = RecipeRoute()
         Search(recipeRoute)
-        if (recipes.isEmpty()) EmptyList()
-        else {
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(recipes) { recipe ->
-                    RecipeRow(
-                        recipe = recipe,
-                        recipeViewModel = recipeViewModel,
-                        recipeRoute = recipeRoute
-                    )
-                }
+        if (recipeViewModel.requestComplete.value) {
+            RecipesColumn(recipeViewModel = recipeViewModel, recipeRoute = recipeRoute)
+        } else LoadingDialog()
+    }
+}
+
+@Composable
+private fun RecipesColumn(recipeViewModel: RecipeViewModel, recipeRoute: RecipeRoute) {
+    val recipes = recipeViewModel.recipes
+    if (recipes.isEmpty()) EmptyList()
+    else {
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            items(recipes) { recipe ->
+                RecipeRow(
+                    recipe = recipe,
+                    recipeViewModel = recipeViewModel,
+                    recipeRoute = recipeRoute
+                )
             }
         }
     }
@@ -66,11 +74,12 @@ fun Recipes(recipeViewModel: RecipeViewModel) {
 
 @Composable
 private fun Search(recipeRoute: RecipeRoute) {
-    Box(
+    TabBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Purple500)
-            .height(Multiplier_x28)
+            .height(Multiplier_x28),
+        showBackButton = false
     ) {
         Card(
             modifier = Modifier
@@ -149,6 +158,7 @@ fun RecipePreview() {
             )
         )
         recipeViewModel.recipes.addAll(recipes)
+        recipeViewModel.requestComplete.value = true
         Recipes(recipeViewModel = recipeViewModel)
     }
 }

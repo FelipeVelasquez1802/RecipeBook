@@ -3,6 +3,8 @@ package com.test.empowerment.labs.recipebook.common.view
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import com.test.empowerment.labs.recipebook.ui.theme.Title
@@ -17,7 +19,14 @@ fun TitleBold(
     text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    fontSize: TextUnit = Title
+    fontSize: TextUnit = Title,
+    color: Color = Black
 ) {
-    Text(text = text, modifier = modifier, fontWeight = fontWeight, fontSize = fontSize)
+    Text(
+        text = text,
+        modifier = modifier,
+        fontWeight = fontWeight,
+        fontSize = fontSize,
+        color = color
+    )
 }

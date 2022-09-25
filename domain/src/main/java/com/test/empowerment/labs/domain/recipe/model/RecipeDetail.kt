@@ -8,7 +8,7 @@ import com.test.empowerment.labs.domain.instruction.model.Instruction
 class RecipeDetail(
     id: Int,
     title: String,
-    imagePath: String,
+    imagePath: String?,
     val summary: String,
     val readyInMinute: Int,
     val ingredients: MutableList<Ingredient>,

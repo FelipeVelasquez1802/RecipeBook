@@ -1,5 +1,6 @@
 package com.test.empowerment.labs.recipebook.recipe.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
@@ -20,11 +21,13 @@ class RecipeDetailViewModel : ViewModel() {
     }
 
     var recipeDetail: MutableLiveData<RecipeDetail> = MutableLiveData()
+    val requestComplete = mutableStateOf(false)
 
     fun executeGetRecipeDetail(id: Int) {
         CoroutineScope(IO).launch {
             val result: RecipeDetail = recipeDetailService.getRecipeDetail(id)
             recipeDetail.postValue(result)
+            requestComplete.value = true
         }
     }
 

@@ -1,6 +1,7 @@
 package com.test.empowerment.labs.recipebook.recipe.view
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,34 +37,50 @@ import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.DescriptionHtml
 import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
 import com.test.empowerment.labs.recipebook.common.view.FavoriteButton
+import com.test.empowerment.labs.recipebook.common.view.LoadingDialog
+import com.test.empowerment.labs.recipebook.common.view.TabBar
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
 import com.test.empowerment.labs.recipebook.recipe.viewmodel.RecipeDetailViewModel
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x100
+import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x28
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x3
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x4
 import com.test.empowerment.labs.recipebook.ui.theme.Multiplier_x6
+import com.test.empowerment.labs.recipebook.ui.theme.Purple500
 import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 
 @Composable
 fun RecipeDetail(recipeDetailViewModel: RecipeDetailViewModel) {
-    val recipeDetail by recipeDetailViewModel.recipeDetail.observeAsState()
-    recipeDetail?.apply {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            item {
-                Detail(recipeDetail = this@apply, recipeDetailViewModel)
-            }
-            title(text = "Ingredients")
-            ingredients(ingredients = ingredients)
-            title(text = "Instruction")
-            this@apply.instructions.forEach { instruction ->
-                title(text = "Steps")
-                items(instruction.steps) { step ->
-                    StepRow(step = step)
+    if (recipeDetailViewModel.requestComplete.value) {
+        val recipeDetail by recipeDetailViewModel.recipeDetail.observeAsState()
+        recipeDetail?.apply {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                item {
+                    TabBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Purple500)
+                            .height(Multiplier_x28)
+                    ) {
+                        TitleBold(text = "RecipeDetail", color = Color.White)
+                    }
+                }
+                item {
+                    Detail(recipeDetail = this@apply, recipeDetailViewModel)
+                }
+                title(text = "Ingredients")
+                ingredients(ingredients = ingredients)
+                title(text = "Instruction")
+                this@apply.instructions.forEach { instruction ->
+                    title(text = "Steps")
+                    items(instruction.steps) { step ->
+                        StepRow(step = step)
+                    }
                 }
             }
-        }
-    } ?: NullRecipeDetailDialog()
+        } ?: NullRecipeDetailDialog()
+    } else LoadingDialog()
 }
 
 @Composable
@@ -231,6 +248,7 @@ fun RecipeDetailPreview() {
         )
         val recipeDetailViewModel = RecipeDetailViewModel()
         recipeDetailViewModel.recipeDetail.value = recipeDetail
+        recipeDetailViewModel.requestComplete.value = true
         RecipeDetail(recipeDetailViewModel = recipeDetailViewModel)
     }
 }

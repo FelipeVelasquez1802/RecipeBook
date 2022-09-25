@@ -22,12 +22,14 @@ class RecipeViewModel : ViewModel() {
     }
 
     val recipes: MutableList<Recipe> = mutableStateListOf()
+    val requestComplete = mutableStateOf(false)
     var showTextHelp = mutableStateOf(false)
 
     fun executeGetRecipe() {
         CoroutineScope(IO).launch {
             val recipeResult = recipeService.getRecipe()
             recipes.addAll(recipeResult)
+            requestComplete.value = true
         }
     }
 
@@ -38,8 +40,10 @@ class RecipeViewModel : ViewModel() {
                 recipes.clear()
                 recipes.addAll(recipeResult)
                 showTextHelp.value = false
+                requestComplete.value = true
             } catch (_: EmptyValueException) {
                 showTextHelp.value = true
+                requestComplete.value = true
             }
         }
     }

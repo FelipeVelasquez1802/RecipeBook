@@ -29,8 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
+import com.test.empowerment.labs.recipebook.common.view.BackButton
 import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
 import com.test.empowerment.labs.recipebook.common.view.EmptyList
+import com.test.empowerment.labs.recipebook.common.view.LoadingDialog
+import com.test.empowerment.labs.recipebook.common.view.TabBar
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
 import com.test.empowerment.labs.recipebook.recipe.model.ParamsEnum
 import com.test.empowerment.labs.recipebook.recipe.route.RecipeRoute
@@ -51,28 +54,25 @@ fun Search(recipeViewModel: RecipeViewModel) {
             .fillMaxSize()
             .background(Color.LightGray)
     ) {
+
         SearchField(recipeViewModel)
         TextHelp(showTextHelp = recipeViewModel.showTextHelp.value)
-        RecipesResult(recipes = recipeViewModel.recipes)
+        if (recipeViewModel.requestComplete.value) {
+            RecipesResult(recipes = recipeViewModel.recipes)
+        } else LoadingDialog()
     }
 }
 
 @Composable
 private fun SearchField(recipeViewModel: RecipeViewModel) {
     val keyWord = remember { mutableStateOf("") }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    TabBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Purple500)
-            .height(Multiplier_x28)
+            .height(Multiplier_x28),
+        showBackButton = true
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_back),
-            contentDescription = ParamsEnum.BACK.value,
-            modifier = Modifier.padding(horizontal = Multiplier_x6, vertical = Multiplier_x4),
-            tint = Color.White
-        )
         TextField(
             value = keyWord.value,
             onValueChange = { keyWord.value = it },
@@ -84,7 +84,10 @@ private fun SearchField(recipeViewModel: RecipeViewModel) {
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             trailingIcon = {
-                IconButton(onClick = { recipeViewModel.executeGetRecipeByKeyWord(keyWord.value) }) {
+                IconButton(onClick = {
+                    recipeViewModel.requestComplete.value = false
+                    recipeViewModel.executeGetRecipeByKeyWord(keyWord.value)
+                }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = ParamsEnum.SEARCH.value,
@@ -151,6 +154,7 @@ fun SearchPreview() {
             )
         )
         recipeViewModel.recipes.addAll(recipes)
+        recipeViewModel.requestComplete.value = true
         Search(recipeViewModel)
     }
 }

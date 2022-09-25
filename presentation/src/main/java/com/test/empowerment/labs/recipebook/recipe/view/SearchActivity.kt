@@ -16,6 +16,7 @@ class SearchActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        recipeViewModel.requestComplete.value = true
         setContent {
             RecipeBookTheme {
                 Surface(

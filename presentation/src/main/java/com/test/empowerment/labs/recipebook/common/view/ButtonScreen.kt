@@ -1,5 +1,7 @@
 package com.test.empowerment.labs.recipebook.common.view
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -21,5 +23,16 @@ fun FavoriteButton(modifier: Modifier = Modifier, isFavorite: MutableState<Boole
         modifier = modifier
             .padding(Multiplier_x6),
         tint = favoriteTint
+    )
+}
+
+@Composable
+fun BackButton(modifier: Modifier = Modifier) {
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    Icon(
+        painter = painterResource(id = R.drawable.ic_back),
+        contentDescription = ParamsEnum.BACK.value,
+        modifier = modifier.clickable { dispatcher?.onBackPressed() },
+        tint = Color.White
     )
 }

@@ -7,8 +7,9 @@ class RecipeDetailDto(
     id: Int,
     title: String,
     imagePath: String,
+    isFavorite: Boolean,
     val summary: String,
     val readyInMinute: Int,
     val ingredients: MutableList<IngredientDto>,
     val instructions: MutableList<InstructionDto>
-) : RecipeDto(id, title, imagePath)
+) : RecipeDto(id, title, imagePath, isFavorite)

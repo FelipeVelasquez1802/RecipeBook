@@ -4,7 +4,12 @@ import com.test.empowerment.labs.domain.common.model.Identity
 import com.test.empowerment.labs.domain.exception.BadPathException
 import com.test.empowerment.labs.domain.exception.EmptyValueException
 
-open class Recipe(id: Int, val title: String, val imagePath: String) : Identity(id) {
+open class Recipe(
+    id: Int,
+    val title: String,
+    val imagePath: String,
+    val isFavorite: Boolean = false
+) : Identity(id) {
     init {
         validate()
     }

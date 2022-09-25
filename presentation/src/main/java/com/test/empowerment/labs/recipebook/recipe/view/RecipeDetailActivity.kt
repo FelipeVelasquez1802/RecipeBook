@@ -22,13 +22,12 @@ class RecipeDetailActivity : ComponentActivity() {
         recipeDetailViewModel.executeGetRecipeDetail(recipeId)
         setContent {
             RecipeBookTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
                     val recipeDetail by recipeDetailViewModel.recipeDetail.observeAsState()
-                    RecipeDetail(recipeDetail = recipeDetail)
+                    RecipeDetail(recipeDetailViewModel = recipeDetailViewModel)
                 }
             }
         }

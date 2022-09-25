@@ -24,8 +24,7 @@ class RecipeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val recipes = recipeViewModel.recipes
-                    Recipes(recipes = recipes)
+                    Recipes(recipeViewModel = recipeViewModel)
                 }
             }
         }

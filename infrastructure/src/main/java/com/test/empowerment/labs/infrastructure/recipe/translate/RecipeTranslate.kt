@@ -6,7 +6,7 @@ import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDto
 class RecipeTranslate {
     companion object {
         private fun fromDtoToModel(recipeDto: RecipeDto): Recipe =
-            Recipe(recipeDto.id, recipeDto.title, recipeDto.imagePath)
+            Recipe(recipeDto.id, recipeDto.title, recipeDto.imagePath, recipeDto.isFavorite)
 
         fun fromListDtoToListModel(recipesDto: MutableList<RecipeDto>): MutableList<Recipe> =
             recipesDto.map { recipeDto -> fromDtoToModel(recipeDto) }.toMutableList()

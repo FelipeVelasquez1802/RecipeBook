@@ -8,8 +8,9 @@ import com.test.empowerment.labs.infrastructure.instruction.dto.InstructionDto
 import com.test.empowerment.labs.infrastructure.instruction.dto.StepDto
 import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDetailDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeDetailTranslate
+import javax.inject.Inject
 
-class RecipeDetailRepositoryImpl : RecipeDetailRepository {
+class RecipeDetailRepositoryImpl @Inject constructor() : RecipeDetailRepository {
 
     private val ingredientsDto = mutableListOf(
         IngredientDto(

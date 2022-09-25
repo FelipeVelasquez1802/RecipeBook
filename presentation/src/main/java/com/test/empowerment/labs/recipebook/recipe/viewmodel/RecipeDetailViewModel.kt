@@ -4,21 +4,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
-import com.test.empowerment.labs.domain.recipe.repository.RecipeDetailRepository
 import com.test.empowerment.labs.domain.recipe.service.RecipeDetailService
-import com.test.empowerment.labs.infrastructure.recipe.repository.RecipeDetailRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecipeDetailViewModel : ViewModel() {
+@HiltViewModel
+class RecipeDetailViewModel @Inject constructor() : ViewModel() {
 
-    private var recipeDetailService: RecipeDetailService
-
-    init {
-        val recipeDetailRepository: RecipeDetailRepository = RecipeDetailRepositoryImpl()
-        recipeDetailService = RecipeDetailService(recipeDetailRepository)
-    }
+    @Inject
+    lateinit var recipeDetailService: RecipeDetailService
 
     var recipeDetail: MutableLiveData<RecipeDetail> = MutableLiveData()
     val requestComplete = mutableStateOf(false)

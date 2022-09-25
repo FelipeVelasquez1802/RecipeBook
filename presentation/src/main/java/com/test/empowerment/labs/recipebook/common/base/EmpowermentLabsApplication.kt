@@ -2,7 +2,9 @@ package com.test.empowerment.labs.recipebook.common.base
 
 import android.app.Application
 import android.content.Context
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class EmpowermentLabsApplication : Application() {
     init {
         instance = this

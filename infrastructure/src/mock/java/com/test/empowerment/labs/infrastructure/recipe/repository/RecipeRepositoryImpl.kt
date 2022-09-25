@@ -4,8 +4,9 @@ import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.domain.recipe.repository.RecipeRepository
 import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeTranslate
+import javax.inject.Inject
 
-class RecipeRepositoryImpl : RecipeRepository {
+class RecipeRepositoryImpl @Inject constructor() : RecipeRepository {
 
     private val recipesDto = mutableListOf(
         RecipeDto(

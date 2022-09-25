@@ -7,7 +7,7 @@ import com.test.empowerment.labs.domain.exception.EmptyValueException
 open class Recipe(
     id: Int,
     val title: String,
-    val imagePath: String,
+    val imagePath: String?,
     val isFavorite: Boolean = false
 ) : Identity(id) {
     init {
@@ -32,18 +32,22 @@ open class Recipe(
     }
 
     private fun validateEmptyImagePath() {
-        if (imagePath.isEmpty()) {
-            val message = "This is empty Path Image"
-            throw EmptyValueException(message)
+        imagePath?.apply {
+            if (imagePath.isEmpty()) {
+                val message = "This is empty Path Image"
+                throw EmptyValueException(message)
+            }
         }
     }
 
     private fun validateCorrectImagePath() {
-        val pathRegex =
-            "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)".toRegex()
-        if (!imagePath.matches(pathRegex)) {
-            val message = "This is bad image path"
-            throw BadPathException(message)
+        imagePath?.apply {
+            val pathRegex =
+                "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)".toRegex()
+            if (!imagePath.matches(pathRegex)) {
+                val message = "This is bad image path"
+                throw BadPathException(message)
+            }
         }
     }
 }

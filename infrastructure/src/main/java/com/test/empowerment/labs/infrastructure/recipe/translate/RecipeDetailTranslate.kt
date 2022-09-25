@@ -2,7 +2,7 @@ package com.test.empowerment.labs.infrastructure.recipe.translate
 
 import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 import com.test.empowerment.labs.infrastructure.ingredient.translate.IngredientTranslate
-import com.test.empowerment.labs.infrastructure.intruction.translate.InstructionTranslate
+import com.test.empowerment.labs.infrastructure.instruction.translate.InstructionTranslate
 import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDetailDto
 
 class RecipeDetailTranslate {
@@ -17,7 +17,7 @@ class RecipeDetailTranslate {
                 recipeDetailDto.title,
                 recipeDetailDto.imagePath,
                 recipeDetailDto.summary,
-                recipeDetailDto.readyInMinute,
+                recipeDetailDto.readyInMinutes,
                 ingredients,
                 instructions
             )

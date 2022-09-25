@@ -44,16 +44,4 @@ class IngredientTest {
         }
     }
 
-    @Test
-    fun givenTheCreationIngredient_whenIsEmptyUnit_thenReturnEmptyValueException() {
-        val emptyUnit = ""
-        val dataBuilder = IngredientDataBuilder().withUnit(emptyUnit)
-        try {
-            dataBuilder.build()
-            fail("Expected EmptyValueException")
-        } catch (exception: Exception) {
-            assert(exception is EmptyValueException)
-        }
-    }
-
 }

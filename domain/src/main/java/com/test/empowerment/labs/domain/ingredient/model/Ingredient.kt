@@ -17,7 +17,6 @@ class Ingredient(
     private fun validate() {
         validateName()
         validateAmount()
-        validateUnit()
     }
 
     private fun validateName() {
@@ -31,13 +30,6 @@ class Ingredient(
         if (amount < 0) {
             val message = "This is negative amount"
             throw NegativeNumberException(message)
-        }
-    }
-
-    private fun validateUnit() {
-        if (unit.isEmpty()) {
-            val message = "This is empty unit"
-            throw EmptyValueException(message)
         }
     }
 

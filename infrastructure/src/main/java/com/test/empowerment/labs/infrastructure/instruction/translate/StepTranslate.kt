@@ -1,7 +1,7 @@
-package com.test.empowerment.labs.infrastructure.intruction.translate
+package com.test.empowerment.labs.infrastructure.instruction.translate
 
 import com.test.empowerment.labs.domain.instruction.model.Step
-import com.test.empowerment.labs.infrastructure.intruction.dto.StepDto
+import com.test.empowerment.labs.infrastructure.instruction.dto.StepDto
 
 class StepTranslate {
     companion object {

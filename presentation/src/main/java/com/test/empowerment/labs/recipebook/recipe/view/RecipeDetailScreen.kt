@@ -36,6 +36,7 @@ import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 import com.test.empowerment.labs.recipebook.R
 import com.test.empowerment.labs.recipebook.common.view.DescriptionHtml
 import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
+import com.test.empowerment.labs.recipebook.common.view.ErrorDialog
 import com.test.empowerment.labs.recipebook.common.view.FavoriteButton
 import com.test.empowerment.labs.recipebook.common.view.LoadingDialog
 import com.test.empowerment.labs.recipebook.common.view.TabBar
@@ -52,6 +53,7 @@ import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 @Composable
 fun RecipeDetail(recipeDetailViewModel: RecipeDetailViewModel) {
+    ShowErrorDialog(recipeDetailViewModel = recipeDetailViewModel)
     if (recipeDetailViewModel.requestComplete.value) {
         val recipeDetail by recipeDetailViewModel.recipeDetail.observeAsState()
         recipeDetail?.apply {
@@ -63,17 +65,20 @@ fun RecipeDetail(recipeDetailViewModel: RecipeDetailViewModel) {
                             .background(Purple500)
                             .height(Multiplier_x28)
                     ) {
-                        TitleBold(text = "RecipeDetail", color = Color.White)
+                        TitleBold(
+                            textId = R.string.title_activity_recipe_detail,
+                            color = Color.White
+                        )
                     }
                 }
                 item {
                     Detail(recipeDetail = this@apply, recipeDetailViewModel)
                 }
-                title(text = "Ingredients")
+                title(textId = R.string.title_ingredients)
                 ingredients(ingredients = ingredients)
-                title(text = "Instruction")
+                title(textId = R.string.title_instructions)
                 this@apply.instructions.forEach { instruction ->
-                    title(text = "Steps")
+                    title(textId = R.string.title_steps)
                     items(instruction.steps) { step ->
                         StepRow(step = step)
                     }
@@ -81,6 +86,17 @@ fun RecipeDetail(recipeDetailViewModel: RecipeDetailViewModel) {
             }
         } ?: NullRecipeDetailDialog()
     } else LoadingDialog()
+}
+
+@Composable
+private fun ShowErrorDialog(recipeDetailViewModel: RecipeDetailViewModel) {
+    val error = recipeDetailViewModel.error.value
+    val isVisibility = recipeDetailViewModel.showErrorDialog
+    ErrorDialog(
+        titleId = error.title,
+        descriptionId = error.description,
+        isVisibility = isVisibility
+    )
 }
 
 @Composable
@@ -140,9 +156,9 @@ private fun Time(time: Int) {
     }
 }
 
-private fun LazyListScope.title(text: String) = item {
+private fun LazyListScope.title(textId: Int) = item {
     TitleBold(
-        text = text,
+        textId = textId,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = Multiplier_x6, horizontal = Multiplier_x4)

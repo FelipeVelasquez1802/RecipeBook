@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +24,9 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
+import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
 import com.test.empowerment.labs.recipebook.common.view.EmptyList
+import com.test.empowerment.labs.recipebook.common.view.ErrorDialog
 import com.test.empowerment.labs.recipebook.common.view.FavoriteButton
 import com.test.empowerment.labs.recipebook.common.view.LoadingDialog
 import com.test.empowerment.labs.recipebook.common.view.TabBar
@@ -42,6 +43,7 @@ import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 @Composable
 fun Recipes(recipeViewModel: RecipeViewModel) {
+    ShowErrorDialog(recipeViewModel = recipeViewModel)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,6 +55,17 @@ fun Recipes(recipeViewModel: RecipeViewModel) {
             RecipesColumn(recipeViewModel = recipeViewModel, recipeRoute = recipeRoute)
         } else LoadingDialog()
     }
+}
+
+@Composable
+private fun ShowErrorDialog(recipeViewModel: RecipeViewModel) {
+    val error = recipeViewModel.error.value
+    val isVisibility = recipeViewModel.showErrorDialog
+    ErrorDialog(
+        titleId = error.title,
+        descriptionId = error.description,
+        isVisibility = isVisibility
+    )
 }
 
 @Composable
@@ -96,7 +109,7 @@ private fun Search(recipeRoute: RecipeRoute) {
                     painter = painterResource(id = R.drawable.ic_search),
                     contentDescription = ParamsEnum.SEARCH.value
                 )
-                Text(text = "Search")
+                DescriptionNormal(textId = R.string.search_title)
             }
         }
     }

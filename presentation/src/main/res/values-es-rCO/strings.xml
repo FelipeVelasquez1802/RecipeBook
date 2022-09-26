@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recetas</string>
+    <string name="title_activity_recipe_detail">Detalle de receta</string>
+    <string name="title_activity_search">Buscar receta</string>
+    <string name="result_search_title">Resultado busqueda</string>
+    <string name="search_title">Buscar: Pollo</string>
+    <string name="error_bad_id_title">Tenemos problemas</string>
+    <string name="error_bad_id_description">Lo sentimos, tenemos un problema con la información</string>
+    <string name="error_empty_value_title">Tenemos un problema!</string>
+    <string name="error_empty_value_description">Hay información que no esta bien estructurada</string>
+    <string name="error_bad_value_time_title">Tenemos problemas!</string>
+    <string name="error_bad_value_time_description">El tiempo de la receta es negativo</string>
+    <string name="title_ingredients">Ingredientes</string>
+    <string name="title_instructions">Instrucciones</string>
+    <string name="title_steps">Pasos</string>
+</resources>

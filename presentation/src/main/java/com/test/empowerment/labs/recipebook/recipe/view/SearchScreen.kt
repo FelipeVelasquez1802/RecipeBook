@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,9 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.skydoves.landscapist.glide.GlideImage
 import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.recipebook.R
-import com.test.empowerment.labs.recipebook.common.view.BackButton
 import com.test.empowerment.labs.recipebook.common.view.DescriptionNormal
 import com.test.empowerment.labs.recipebook.common.view.EmptyList
+import com.test.empowerment.labs.recipebook.common.view.ErrorDialog
 import com.test.empowerment.labs.recipebook.common.view.LoadingDialog
 import com.test.empowerment.labs.recipebook.common.view.TabBar
 import com.test.empowerment.labs.recipebook.common.view.TitleBold
@@ -49,6 +50,7 @@ import com.test.empowerment.labs.recipebook.ui.theme.RecipeBookTheme
 
 @Composable
 fun Search(recipeViewModel: RecipeViewModel) {
+    ShowErrorDialog(recipeViewModel = recipeViewModel)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,6 +63,17 @@ fun Search(recipeViewModel: RecipeViewModel) {
             RecipesResult(recipes = recipeViewModel.recipes)
         } else LoadingDialog()
     }
+}
+
+@Composable
+private fun ShowErrorDialog(recipeViewModel: RecipeViewModel) {
+    val error = recipeViewModel.error.value
+    val isVisibility = recipeViewModel.showErrorDialog
+    ErrorDialog(
+        titleId = error.title,
+        descriptionId = error.description,
+        isVisibility = isVisibility
+    )
 }
 
 @Composable
@@ -79,8 +92,8 @@ private fun SearchField(recipeViewModel: RecipeViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Purple500),
-            placeholder = { DescriptionNormal(text = "Search") },
-            textStyle = TextStyle(color = Color.White),
+            placeholder = { DescriptionNormal(textId = R.string.search_title, color = White) },
+            textStyle = TextStyle(color = White),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             trailingIcon = {
@@ -91,7 +104,7 @@ private fun SearchField(recipeViewModel: RecipeViewModel) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = ParamsEnum.SEARCH.value,
-                        tint = Color.White
+                        tint = White
                     )
                 }
             }
@@ -110,6 +123,14 @@ private fun RecipesResult(recipes: MutableList<Recipe>) {
     else {
         val recipeRoute = RecipeRoute()
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            item {
+                TitleBold(
+                    textId = R.string.result_search_title,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = Multiplier_x4, horizontal = Multiplier_x6)
+                )
+            }
             items(recipes) { recipe ->
                 RecipeRow(recipe = recipe, recipeRoute = recipeRoute)
             }

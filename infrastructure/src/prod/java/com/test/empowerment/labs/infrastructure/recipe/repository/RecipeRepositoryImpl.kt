@@ -7,8 +7,9 @@ import com.test.empowerment.labs.infrastructure.common.api.ConfigApi
 import com.test.empowerment.labs.infrastructure.recipe.api.RecipeApi
 import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeResultDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeTranslate
+import javax.inject.Inject
 
-class RecipeRepositoryImpl : RecipeRepository {
+class RecipeRepositoryImpl @Inject constructor() : RecipeRepository {
 
     private val api = ConfigApi.getApi(RecipeApi::class.java)
 

@@ -1,6 +1,7 @@
 package com.test.empowerment.labs.infrastructure.recipe.database.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -19,5 +20,7 @@ data class Recipe(
     @ColumnInfo(name = IMAGE_PATH)
     val imagePath: String?,
     @ColumnInfo(name = IS_FAVORITE)
-    var isFavorite: Boolean
+    var isFavorite: Boolean,
+    @Embedded
+    val detail: RecipeDetail?
 ) : IdentityEntity(id)

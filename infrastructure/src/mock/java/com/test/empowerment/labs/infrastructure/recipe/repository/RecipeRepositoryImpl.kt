@@ -7,7 +7,7 @@ import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeTranslate
 import javax.inject.Inject
 
-class RecipeRepositoryImpl @Inject constructor(private val database: DatabaseConfig) :
+class RecipeRepositoryImpl @Inject constructor(database: DatabaseConfig) :
     RecipeRepository {
 
     private val recipeDao = database.recipeDao()

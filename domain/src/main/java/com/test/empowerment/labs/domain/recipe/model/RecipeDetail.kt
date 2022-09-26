@@ -9,11 +9,12 @@ class RecipeDetail(
     id: Int,
     title: String,
     imagePath: String?,
+    isFavorite: Boolean,
     val summary: String,
     val readyInMinute: Int,
     val ingredients: MutableList<Ingredient>,
     val instructions: MutableList<Instruction>
-) : Recipe(id, title, imagePath) {
+) : Recipe(id, title, imagePath, isFavorite) {
 
     init {
         validate()

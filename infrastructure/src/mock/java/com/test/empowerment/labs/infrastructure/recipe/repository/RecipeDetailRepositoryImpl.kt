@@ -3,6 +3,7 @@ package com.test.empowerment.labs.infrastructure.recipe.repository
 import com.test.empowerment.labs.domain.exception.NullObjectException
 import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 import com.test.empowerment.labs.domain.recipe.repository.RecipeDetailRepository
+import com.test.empowerment.labs.infrastructure.common.database.DatabaseConfig
 import com.test.empowerment.labs.infrastructure.ingredient.dto.IngredientDto
 import com.test.empowerment.labs.infrastructure.instruction.dto.InstructionDto
 import com.test.empowerment.labs.infrastructure.instruction.dto.StepDto
@@ -10,7 +11,10 @@ import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDetailDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeDetailTranslate
 import javax.inject.Inject
 
-class RecipeDetailRepositoryImpl @Inject constructor() : RecipeDetailRepository {
+class RecipeDetailRepositoryImpl @Inject constructor(database: DatabaseConfig) :
+    RecipeDetailRepository {
+
+    private val recipeDetailDao = database.recipeDetailDao()
 
     private val ingredientsDto = mutableListOf(
         IngredientDto(
@@ -70,7 +74,10 @@ class RecipeDetailRepositoryImpl @Inject constructor() : RecipeDetailRepository 
     override fun selectRecipeDetail(id: Int): RecipeDetail {
         val recipeDetailDto =
             recipesDto.find { recipeDto -> recipeDto.id == id } ?: throw NullObjectException()
-        return RecipeDetailTranslate.fromRecipeDetailDtoToModel(recipeDetailDto)
+        val recipeAndDetail = RecipeDetailTranslate.fromDtoToEntity(recipeDetailDto)
+        recipeDetailDao.insertRecipeDetail(recipeAndDetail)
+        val recipeDetailEntity = recipeDetailDao.selectRecipeDetail(id)
+        return RecipeDetailTranslate.fromEntityToModel(recipeDetailEntity)
     }
 
     override fun updateIsFavoriteRecipe(id: Int, isFavorite: Boolean): Boolean {

@@ -122,11 +122,11 @@ private fun Detail(recipeDetail: RecipeDetail, recipeDetailViewModel: RecipeDeta
                 FavoriteButton(
                     isFavorite = isFavorite,
                     modifier = Modifier.clickable {
+                        isFavorite.value = !isFavorite.value
                         recipeDetailViewModel.executeSetIsFavoriteRecipe(
                             id = recipeDetail.id,
                             isFavorite = isFavorite.value
                         )
-                        isFavorite.value = !isFavorite.value
                     })
             }
             DescriptionHtml(

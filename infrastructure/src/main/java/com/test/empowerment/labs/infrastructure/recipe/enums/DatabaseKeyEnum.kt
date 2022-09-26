@@ -6,4 +6,6 @@ object DatabaseKeyEnum {
     const val IS_FAVORITE = "is_favorite"
     const val UPDATE_DATE = "update_date"
     const val READY_IN_MINUTES = "ready_in_minutes"
+    const val RECIPE_ID = "recipe_id"
+    const val INSTRUCTION_ID ="instruction_id"
 }

@@ -16,8 +16,15 @@ import javax.inject.Singleton
 
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class RecipeModule {
     @Binds
     abstract fun bindRecipeRepository(recipeRepositoryImpl: RecipeRepositoryImpl): RecipeRepository
+
+    companion object {
+        @Singleton
+        @Provides
+        fun provideDatabase(@ApplicationContext context: Context): DatabaseConfig =
+            Room.databaseBuilder(context, DatabaseConfig::class.java, "recipe_book").build()
+    }
 }

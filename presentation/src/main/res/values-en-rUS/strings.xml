@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RecipeBook</string>
+    <string name="title_activity_recipe_detail">Recipe Detail</string>
+    <string name="title_activity_search">Recipe search</string>
+    <string name="result_search_title">Result search</string>
+    <string name="search_title">Search: Chicken</string>
+    <string name="error_bad_id_title">Bad id</string>
+    <string name="error_bad_id_description">This is bad information</string>
+    <string name="error_empty_value_title">We have problem!</string>
+    <string name="error_empty_value_description">This is bad information</string>
+    <string name="error_bad_value_time_title">We have problem</string>
+    <string name="error_bad_value_time_description">This is negative time</string>
+    <string name="title_ingredients">Ingredients</string>
+    <string name="title_instructions">Instructions</string>
+    <string name="title_steps">Steps</string>
+</resources>

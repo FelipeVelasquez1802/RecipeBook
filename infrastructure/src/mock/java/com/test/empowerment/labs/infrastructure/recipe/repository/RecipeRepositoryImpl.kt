@@ -1,12 +1,17 @@
 package com.test.empowerment.labs.infrastructure.recipe.repository
 
-import com.test.empowerment.labs.domain.recipe.model.Recipe
 import com.test.empowerment.labs.domain.recipe.repository.RecipeRepository
+import com.test.empowerment.labs.infrastructure.common.database.DatabaseConfig
+import com.test.empowerment.labs.infrastructure.recipe.database.entity.FavoriteRecipe
 import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeTranslate
 import javax.inject.Inject
+import com.test.empowerment.labs.domain.recipe.model.Recipe as RecipeModel
 
-class RecipeRepositoryImpl @Inject constructor() : RecipeRepository {
+class RecipeRepositoryImpl @Inject constructor(database: DatabaseConfig) :
+    RecipeRepository {
+
+    private val favoriteRecipeDao = database.favoriteRecipe()
 
     private val recipesDto = mutableListOf(
         RecipeDto(
@@ -29,10 +34,17 @@ class RecipeRepositoryImpl @Inject constructor() : RecipeRepository {
         )
     )
 
-    override fun selectRecipe(): MutableList<Recipe> =
-        RecipeTranslate.fromListDtoToListModel(recipesDto)
+    override fun selectRecipe(): MutableList<RecipeModel> {
+        val favoritesRecipe = favoriteRecipeDao.select()
+        favoritesRecipe.forEach { favoriteRecipe ->
+            recipesDto.find { recipeDto ->
+                recipeDto.id == favoriteRecipe.recipeId
+            }?.isFavorite = favoriteRecipe.isFavorite
+        }
+        return RecipeTranslate.fromListDtoToListModel(recipesDto)
+    }
 
-    override fun selectRecipeByKeyWord(keyWord: String): MutableList<Recipe> {
+    override fun selectRecipeByKeyWord(keyWord: String): MutableList<RecipeModel> {
         val recipeFilter = recipesDto.filter { recipeDto ->
             recipeDto.title.lowercase().contains(keyWord.lowercase())
         }.toMutableList()
@@ -40,12 +52,11 @@ class RecipeRepositoryImpl @Inject constructor() : RecipeRepository {
     }
 
     override fun updateIsFavoriteRecipe(id: Int, isFavorite: Boolean): Boolean {
-        recipesDto.find { recipeDto -> recipeDto.id == id }?.let { recipeDto ->
-            recipeDto.isFavorite = isFavorite
-            return true
-        } ?: run {
-            return false
-        }
+        val exists = favoriteRecipeDao.exists(id)
+        val favoriteRecipe = FavoriteRecipe(id, isFavorite)
+        if (exists) favoriteRecipeDao.update(favoriteRecipe)
+        else favoriteRecipeDao.insert(favoriteRecipe)
+        return favoriteRecipeDao.isFavorite(id)
     }
 
 }

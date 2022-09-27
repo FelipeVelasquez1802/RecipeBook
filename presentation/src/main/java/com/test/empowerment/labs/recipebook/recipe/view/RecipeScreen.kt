@@ -137,8 +137,8 @@ private fun RecipeRow(recipe: Recipe, recipeViewModel: RecipeViewModel, recipeRo
                     FavoriteButton(
                         isFavorite = isFavorite,
                         modifier = Modifier.clickable {
-                            recipeViewModel.executeSetIsFavoriteRecipe(recipe.id, isFavorite.value)
                             isFavorite.value = !isFavorite.value
+                            recipeViewModel.executeSetIsFavoriteRecipe(recipe.id, isFavorite.value)
                         })
                 }
                 GlideImage(

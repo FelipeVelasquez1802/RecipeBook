@@ -8,7 +8,7 @@ open class Recipe(
     id: Int,
     val title: String,
     val imagePath: String?,
-    val isFavorite: Boolean = false
+    var isFavorite: Boolean = false
 ) : Identity(id) {
     init {
         validate()

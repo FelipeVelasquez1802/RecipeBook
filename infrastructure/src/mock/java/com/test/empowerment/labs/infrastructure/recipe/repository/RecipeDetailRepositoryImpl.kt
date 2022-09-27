@@ -1,16 +1,21 @@
 package com.test.empowerment.labs.infrastructure.recipe.repository
 
 import com.test.empowerment.labs.domain.exception.NullObjectException
-import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 import com.test.empowerment.labs.domain.recipe.repository.RecipeDetailRepository
+import com.test.empowerment.labs.infrastructure.common.database.DatabaseConfig
 import com.test.empowerment.labs.infrastructure.ingredient.dto.IngredientDto
 import com.test.empowerment.labs.infrastructure.instruction.dto.InstructionDto
 import com.test.empowerment.labs.infrastructure.instruction.dto.StepDto
+import com.test.empowerment.labs.infrastructure.recipe.database.entity.FavoriteRecipe
 import com.test.empowerment.labs.infrastructure.recipe.dto.RecipeDetailDto
 import com.test.empowerment.labs.infrastructure.recipe.translate.RecipeDetailTranslate
 import javax.inject.Inject
+import com.test.empowerment.labs.domain.recipe.model.RecipeDetail as RecipeDetailModel
 
-class RecipeDetailRepositoryImpl @Inject constructor() : RecipeDetailRepository {
+class RecipeDetailRepositoryImpl @Inject constructor(database: DatabaseConfig) :
+    RecipeDetailRepository {
+
+    private val favoriteRecipeDao = database.favoriteRecipe()
 
     private val ingredientsDto = mutableListOf(
         IngredientDto(
@@ -67,19 +72,29 @@ class RecipeDetailRepositoryImpl @Inject constructor() : RecipeDetailRepository 
         )
     )
 
-    override fun selectRecipeDetail(id: Int): RecipeDetail {
-        val recipeDetailDto =
-            recipesDto.find { recipeDto -> recipeDto.id == id } ?: throw NullObjectException()
-        return RecipeDetailTranslate.fromRecipeDetailDtoToModel(recipeDetailDto)
+    override fun selectRecipeDetail(id: Int): RecipeDetailModel {
+        val recipeDetailDto = recipesDto.find { recipeDto ->
+            recipeDto.id == id
+        } ?: throw NullObjectException()
+        val recipesDetail = RecipeDetailTranslate.fromRecipeDetailDtoToModel(recipeDetailDto)
+        recipesDetail.isFavorite = isFavorite(id)
+        return recipesDetail
+    }
+
+    private fun isFavorite(recipeId: Int): Boolean {
+        val exists = favoriteRecipeDao.exists(recipeId)
+        if (exists) {
+            return favoriteRecipeDao.isFavorite(recipeId)
+        }
+        return false
     }
 
     override fun updateIsFavoriteRecipe(id: Int, isFavorite: Boolean): Boolean {
-        recipesDto.find { recipeDetailDto -> recipeDetailDto.id == id }?.let { recipeDetailDto ->
-            recipeDetailDto.isFavorite = isFavorite
-            return true
-        } ?: run {
-            return false
-        }
+        val exists = favoriteRecipeDao.exists(id)
+        val favoriteRecipe = FavoriteRecipe(id, isFavorite)
+        if (exists) favoriteRecipeDao.update(favoriteRecipe)
+        else favoriteRecipeDao.insert(favoriteRecipe)
+        return favoriteRecipeDao.isFavorite(id)
     }
 
 }

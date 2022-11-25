@@ -2,6 +2,7 @@ package com.test.empowerment.labs.domain.recipe.databuilder
 
 import com.test.empowerment.labs.domain.ingredient.databuilder.IngredientDataBuilder
 import com.test.empowerment.labs.domain.ingredient.model.Ingredient
+import com.test.empowerment.labs.domain.instruction.model.Instruction
 import com.test.empowerment.labs.domain.recipe.model.RecipeDetail
 
 class RecipeDetailDataBuilder : RecipeDataBuilder() {

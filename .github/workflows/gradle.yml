@@ -26,6 +26,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: Add premissions ./gradlew
+      run: chmod +x ./gradlew
         
     - name: Run tests
       run: ./gradlew test

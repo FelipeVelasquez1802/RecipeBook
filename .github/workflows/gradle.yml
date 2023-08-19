@@ -29,8 +29,8 @@ jobs:
     - name: Add premissions ./gradlew
       run: chmod +x ./gradlew
         
-    - name: Run tests
-      run: ./gradlew test
-        
     - name: Build
       run: ./gradlew build
+        
+    - name: Run tests
+      run: ./gradlew domain:test

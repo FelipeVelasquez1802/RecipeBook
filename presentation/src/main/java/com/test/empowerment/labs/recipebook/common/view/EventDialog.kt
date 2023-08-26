@@ -9,6 +9,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,6 +67,7 @@ fun ErrorDialog(titleId: Int, descriptionId: Int, isVisibility: MutableState<Boo
 @Composable
 private fun EventDialogPreview() {
     RecipeBookTheme {
-        ErrorDialog(title = "Error", description = "Description", mutableStateOf(false))
+        val isVisibility = remember { mutableStateOf(false) }
+        ErrorDialog(title = "Error", description = "Description", isVisibility)
     }
 }

@@ -34,3 +34,6 @@ jobs:
         
     - name: Run tests
       run: ./gradlew domain:test
+
+    - name: Run lint
+      run: ./gradlew lint

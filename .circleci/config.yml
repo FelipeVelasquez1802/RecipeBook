@@ -12,6 +12,11 @@ jobs:
     steps:
       - checkout
 
+      # Se daba permisos de ejecución a Gradle
+      - run:
+          name: Gradle Permissions
+          command: chmod +x ./gradlew
+
       # Descarga e instala las dependencias de Gradle
       - run:
           name: Install Dependencies

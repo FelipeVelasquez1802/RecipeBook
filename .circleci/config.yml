@@ -70,10 +70,7 @@ workflows:
   version: 2
   recipe-book:
     jobs:
-      - build
-      - test-and-coverage:
-          requires:
-            - build
+      - test-and-coverage
       - artifact:
           requires:
             - test-and-coverage

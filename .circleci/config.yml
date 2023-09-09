@@ -42,7 +42,34 @@ jobs:
       # Ejecuta los tests de tu aplicación
       - run:
           name: Run Tests
-          command: ./gradlew test
+          command: ./gradlew domain:test
+
+  coverage:
+    docker:
+      - image: circleci/android:api-30
+
+    working_directory: ~/app
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+
+      # Se daba permisos de ejecución a Gradle
+      - run:
+          name: Gradle Permissions
+          command: chmod +x ./gradlew
+
+      # Ejecuta la coberura de tu aplicación
+      - run:
+          name: Run Tests
+          command: ./gradlew domain:jacocoTestReport
+
+      # Ejecuta la validación de la cobertura de tu aplicación
+      - run:
+          name: Run Tests
+          command: ./gradlew domain:jacocoTestCoverageVerification
 
 workflows:
   version: 2
@@ -52,3 +79,6 @@ workflows:
       - test:
           requires:
             - build
+      - coverage:
+          requires:
+            - test

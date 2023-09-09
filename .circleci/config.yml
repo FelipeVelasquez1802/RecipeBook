@@ -50,6 +50,9 @@ jobs:
           name: Run Jacoco Test Report
           command: ./gradlew domain:jacocoTestReport
 
+      - store_artifacts:
+          path: domain/build/reports
+
       # Ejecuta la validación de la cobertura de tu aplicación
       - run:
           name: Run Jacoco Test Coverage Verification

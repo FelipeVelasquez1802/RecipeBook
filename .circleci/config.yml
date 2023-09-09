@@ -22,6 +22,10 @@ jobs:
           name: Install Dependencies
           command: ./gradlew dependencies
 
+  test:
+    steps:
+      - checkout
+
       # Ejecuta los tests de tu aplicación
       - run:
           name: Run Tests
@@ -32,3 +36,4 @@ workflows:
   build:
     jobs:
       - build
+      - test

@@ -23,7 +23,7 @@ jobs:
           name: Install Dependencies
           command: ./gradlew dependencies
 
-  test:
+  test-and-coverage:
     executor:
       name: android/android-machine
       resource-class: large
@@ -42,19 +42,8 @@ jobs:
           name: Run Tests
           command: ./gradlew domain:test
 
-  coverage:
-    executor:
-      name: android/android-machine
-      resource-class: large
-      tag: 2021.10.1
-
-    steps:
-      - checkout
-
-      # Se daba permisos de ejecución a Gradle
-      - run:
-          name: Gradle Permissions
-          command: chmod +x ./gradlew
+      - store_test_results:
+          path: domain/build/test-results
 
       # Ejecuta la coberura de tu aplicación
       - run:
@@ -87,15 +76,12 @@ jobs:
 
 workflows:
   version: 2
-  build_and_test:
+  recipe-book:
     jobs:
       - build
-      - test:
+      - test-and-coverage:
           requires:
             - build
-      - coverage:
-          requires:
-            - test
       - artifact:
           requires:
-            - coverage
+            - test-and-coverage

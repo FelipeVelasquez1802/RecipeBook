@@ -58,13 +58,32 @@ jobs:
 
       # Ejecuta la coberura de tu aplicación
       - run:
-          name: Run Tests
+          name: Run Jacoco Test Report
           command: ./gradlew domain:jacocoTestReport
 
       # Ejecuta la validación de la cobertura de tu aplicación
       - run:
-          name: Run Tests
+          name: Run Jacoco Test Coverage Verification
           command: ./gradlew domain:jacocoTestCoverageVerification
+
+  artifact:
+    executor:
+      name: android/android-machine
+      resource-class: large
+      tag: 2021.10.1
+
+    steps:
+      - checkout
+
+      # Se daba permisos de ejecución a Gradle
+      - run:
+          name: Gradle Permissions
+          command: chmod +x ./gradlew
+
+      # Genera artefacto
+      - run:
+          name: Run assembleProdDebug
+          command: ./gradlew :presentation:assembleProdDebug
 
 workflows:
   version: 2
@@ -77,3 +96,6 @@ workflows:
       - coverage:
           requires:
             - test
+      - artifact:
+          requires:
+            - coverage

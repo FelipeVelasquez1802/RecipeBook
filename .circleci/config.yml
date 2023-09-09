@@ -23,16 +23,14 @@ jobs:
           command: ./gradlew dependencies
 
   test:
-    docker:
-      - image: circleci/android:api-30
-
-    working_directory: ~/app
-
-    environment:
-      JVM_OPTS: -Xmx3200m
 
     steps:
       - checkout
+
+      # Se daba permisos de ejecución a Gradle
+      - run:
+          name: Gradle Permissions
+          command: chmod +x ./gradlew
 
       # Ejecuta los tests de tu aplicación
       - run:

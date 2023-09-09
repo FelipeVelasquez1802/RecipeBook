@@ -4,7 +4,7 @@ orbs:
   android: circleci/android@2.0
 
 jobs:
-  build:
+  test-and-coverage:
     executor:
       name: android/android-machine
       resource-class: large
@@ -23,20 +23,6 @@ jobs:
           name: Install Dependencies
           command: ./gradlew dependencies
 
-  test-and-coverage:
-    executor:
-      name: android/android-machine
-      resource-class: large
-      tag: 2021.10.1
-
-    steps:
-      - checkout
-
-      # Se daba permisos de ejecución a Gradle
-      - run:
-          name: Gradle Permissions
-          command: chmod +x ./gradlew
-
       # Ejecuta los tests de tu aplicación
       - run:
           name: Run Tests
@@ -51,7 +37,7 @@ jobs:
           command: ./gradlew domain:jacocoTestReport
 
       - store_artifacts:
-          path: domain/build/reports
+          path: domain/build/reports/jacoco/test/html
 
       # Ejecuta la validación de la cobertura de tu aplicación
       - run:
@@ -76,6 +62,9 @@ jobs:
       - run:
           name: Run assembleProdDebug
           command: ./gradlew :presentation:assembleProdDebug
+
+      - store_artifacts:
+          path: presentation/build/outputs/apk/prod/debug
 
 workflows:
   version: 2

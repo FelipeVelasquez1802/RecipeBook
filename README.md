@@ -1,4 +1,4 @@
-# 📋RecibeBook #  
+# 📋RecibeBook📋 #  
 
 Este proyecto es una solución de una prueba planteada por Empowerment Labs.
 
